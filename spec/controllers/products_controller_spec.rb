@@ -21,22 +21,6 @@ RSpec.describe ProductsController, type: :controller do
       expect(response).to render_template(:index)
       expect(assigns(:products)).to match_array([x,y])
     end
-
-    it "calls the model to do the right sorting" do
-      x, y = Product.create!(:price=>10.0), Product.create!(:price=>1.0)
-      expect(Product).to receive(:sorted_by).with("price") { [y,x] }
-      get :index, order: "price"
-      expect(response).to render_template(:index)
-      expect(assigns(:products)).to match_array([y,x])
-    end
-
-    it "handles the situation when the sort order is bogus" do
-      x, y = Product.create!(:price=>10.0), Product.create!(:price=>1.0)
-      expect(Product).to receive(:sorted_by).with("bogus") { [x,y] }
-      get :index, order: "bogus"
-      expect(response).to render_template(:index)
-      expect(assigns(:products)).to match_array([x,y])
-    end
   end
 
   describe "GET #show" do
@@ -53,5 +37,4 @@ RSpec.describe ProductsController, type: :controller do
       expect(response).to render_template(:show)
     end
   end
-
 end
