@@ -2,8 +2,6 @@ class Product < ActiveRecord::Base
     def age_range ()
         min = self.minimum_age_appropriate
         max = self.maximum_age_appropriate
-        print min
-        print max
         if min == nil #if min not set we know max cannot be set
             return "0 and above"
         elsif min == max
@@ -26,13 +24,16 @@ class Product < ActiveRecord::Base
             return true # max not set. can't be too old
         elsif age > max 
             return false
+        else 
+            return true
         end
-        return appropriate
     end
 
-    def sorted_by(field)
+    def self.sorted_by(field)
         if Product.column_names.include?(field)
             return Product.order(field)
+        else
+            return Product.order("name")
         end
     end
 
